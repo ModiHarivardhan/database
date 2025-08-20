@@ -1,3 +1,6 @@
+# 📌 MongoDB Schema – Volunteer & Information Desk System
+
+```mermaid
 erDiagram
     USERS {
         string _id
