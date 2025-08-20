@@ -1,4 +1,4 @@
-# 📌 MongoDB Schema – Volunteer & Information Desk System
+#   Volunteer MongoDB Schema
 
 ```mermaid
 erDiagram
