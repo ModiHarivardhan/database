@@ -1,28 +1,134 @@
-# Volunteer & Info Desk Database Schema
+erDiagram
+    USERS {
+        string _id
+        string name
+        string gender
+        string email
+        string contact
+        string whatsappNumber
+        string address
+        int age
+        date DOB
+        string country
+        string state
+        string city
+        string currentLocation
+        string abhyasiId
+        string role
+        string center
+        string preferredCenter
+        string preferredLanguage
+        string preferredWorkType
+        string profession
+        string skills
+        string interestedDepartments
+        string account
+        string availabilityStatus
+        string location
+        string timeZone
+        date createdAt
+        date updatedAt
+    }
 
-```mermaid
-flowchart LR
-    subgraph VolunteerInfoCluster
-        subgraph volunteer_system [Database: volunteer_system]
-            users[users<br/>_id, name, email, phone, role, skills, availability]
-            departments[departments<br/>_id, department_name, description, head_id]
-            projects[projects<br/>_id, title, description, start_date, end_date, department_id]
-            tasks[tasks<br/>_id, task_name, description, assigned_to, status, project_id]
-            signups[signups<br/>_id, user_id, task_id/project_id, signup_date, status]
-            notifications[notifications<br/>_id, user_id, message, type, read_status]
+    DEPARTMENTS {
+        string _id
+        string name
+        string description
+        string category
+        string departmentHeadId
+        date createdAt
+        date lastUpdated
+    }
 
-            users -->|head_id| departments
-            departments -->|department_id| projects
-            projects -->|project_id| tasks
-            users -->|assigned_to| tasks
-            users -->|user_id| signups
-            tasks -->|task_id| signups
-            users -->|user_id| notifications
-        end
+    TASKS {
+        string _id
+        string title
+        string description
+        string departmentId
+        string type
+        string status
+        int totalSpots
+        string location
+        string requirements
+        date startDate
+        date endDate
+        string startTime
+        string endTime
+        string poc
+        string signups
+        date createdAt
+        string createdBy
+        date updatedAt
+    }
 
-        subgraph info_desk [Database: info_desk]
-            contacts[contacts<br/>_id, name, phone, email, query, status]
-            events[events<br/>_id, title, description, date, time, location]
-            navigation[navigation<br/>_id, place_name, description, map_coordinates]
-        end
-    end
+    PROJECTS {
+        string _id
+        string title
+        string description
+        string departmentId
+        string approvalStatus
+        string requiredSkills
+        date createdAt
+        string templateCreatedBy
+        date templateCreatedAt
+        date lastUpdated
+    }
+
+    PROJECT_APPLICATIONS {
+        string volunteerName
+        string contactNumber
+        string email
+        string whatsappNumber
+        string volunteerId
+        string abhyasiId
+        string projectId
+        date createdAt
+        string status
+        string attachments
+    }
+
+    SIGNUPS {
+        string taskId
+        string volunteerId
+        string organizerId
+        string status
+        date createdAt
+    }
+
+    APP_NOTIFICATIONS {
+        string _id
+        string userId
+        string message
+        string type
+        string status
+        date createdAt
+    }
+
+    REGISTRATION_LOGS {
+        string action
+        string message
+        string userId
+        date createdAt
+        string taskId
+        string organizerId
+    }
+
+    ACTIVITY_LOGS {
+        string activityType
+        string message
+        string userId
+        date createdAt
+        string details
+    }
+
+    %% Relationships
+    USERS ||--o{ DEPARTMENTS : "heads"
+    USERS ||--o{ TASKS : "creates"
+    USERS ||--o{ SIGNUPS : "signs up"
+    TASKS ||--o{ SIGNUPS : "has"
+    DEPARTMENTS ||--o{ TASKS : "includes"
+    PROJECTS ||--o{ PROJECT_APPLICATIONS : "has"
+    USERS ||--o{ PROJECT_APPLICATIONS : "applies"
+    USERS ||--o{ APP_NOTIFICATIONS : "receives"
+    USERS ||--o{ REGISTRATION_LOGS : "creates"
+    USERS ||--o{ ACTIVITY_LOGS : "creates"
